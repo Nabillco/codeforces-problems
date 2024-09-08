@@ -6,45 +6,25 @@
 #define en "\n"
 #define __ ll _; cin>>_; while(_--)
 using namespace std;
-const ll maxx=1e5+5;
-vector<ll>g[maxx];
-vector<ll>v;
-ll arr[maxx],brr[maxx];
-bool vis[maxx];
-ll DFS(ll n,ll cntr,ll o,ll e)
-{
-    vis[n]=true;
-    if(cntr&1)
-    {
-        if(o)if(arr[n]==brr[n])v.push_back(n),o=false;
-        if(!o)if(arr[n]!=brr[n])v.push_back(n),o=true;
-    }
-    else
-    {
-        if(e)if(arr[n]==brr[n])v.push_back(n),e=false;
-        if(!e)if(arr[n]!=brr[n])v.push_back(n),e=true;
-    }
-    for(int i:g[n])
-    {
-        if(!vis[i])DFS(i,cntr+1,o,e);
-    }
-}
+const ll maxx=3e5+5;
+ll arr[maxx];
 void solve()
 {
-ll n;
-cin>>n;
-for(int i=0;i<n-1;i++)
+ll n,m;
+cin>>n>>m;
+set<ll>s;
+for(int i=1;i<=n;i++)s.insert(i);
+while(m--)
 {
-    ll u,v;
-    cin>>u>>v;
-    g[u].push_back(v);
-    g[v].push_back(u);
+    ll l,r,x;
+    cin>>l>>r>>x;
+    vector<ll>v;
+    auto a=s.lower_bound(l);
+    auto b=s.upper_bound(r);
+    for(auto i=a;i!=b;i++)(*i!=x)?v.push_back(*i),arr[*i]=x:x=x;
+    for(int i=0;i<v.size();i++)s.erase(v[i]);
 }
-for(int i=1;i<=n;i++)cin>>arr[i];
-for(int i=1;i<=n;i++)cin>>brr[i];
-DFS(1,1,0,0);
-cout<<v.size()<<endl;
-for(int i:v)cout<<i<<endl;
+for(int i=1;i<=n;i++)cout<<arr[i]<<" ";
 }
 int main() {
 M_M
